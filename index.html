@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SCORE SPARK</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(135deg, #000428, #004e92);
+            color: white;
+        }
+
+        #intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #intro h1 {
+            font-size: 80px;
+            letter-spacing: 8px;
+            color: #00eaff;
+            text-shadow: 0 0 20px #00eaff;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .desc {
+            width: 70%;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .start-btn {
+            margin-top: 20px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #00eaff;
+            color: black;
+            cursor: pointer;
+        }
+
+        #main {
+            display: none;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 45px;
+            color: #00eaff;
+        }
+
+        .credit {
+            opacity: 0.7;
+        }
+
+        .menu button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 20px;
+            border: none;
+            background: #00eaff;
+            cursor: pointer;
+        }
+
+        .box {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 20px auto;
+            width: 340px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            width: 80%;
+        }
+
+        #reviewList {
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="intro">
+    <h1>SCORE SPARK</h1>
+    <h3>By WARSHIKAY KUMAR JHA</h3>
+
+    <p class="desc">
+        Welcome to <b>Score Spark</b> — a powerful smart platform designed to make
+        mathematics simple, fast, and engaging.
+
+        Solve calculations, practice advanced problems from algebra, polynomials,
+        and real class-level mathematics (Class 7–12).
+
+        ⭐ Users can also share their reviews and ratings — helping others discover
+        how useful Score Spark is while continuously improving the experience.
+
+        🚀 Start now and become smarter every day!
+    </p>
+
+    <button class="start-btn" onclick="startApp()">ENTER</button>
+</div>
+
+<div id="main">
+
+    <div class="title">SCORE SPARK</div>
+    <div class="credit">By WARSHIKAY KUMAR JHA</div>
+
+    <div class="menu">
+        <button onclick="showBox('p')">Percentage</button>
+        <button onclick="showBox('a')">Average</button>
+        <button onclick="showBox('c')">Calculator</button>
+        <button onclick="showBox('m')">Solver</button>
+        <button onclick="showBox('practice')">Practice</button>
+        <button onclick="showBox('review')">Reviews</button>
+    </div>
+
+    <!-- Percentage -->
+    <div class="box" id="p">
+        <input id="marks" type="number" placeholder="Marks">
+        <input id="total" type="number" placeholder="Total">
+        <button onclick="percentage()">Calculate</button>
+        <p id="perResult"></p>
+    </div>
+
+    <!-- Average -->
+    <div class="box" id="a">
+        <input id="a1" type="number">
+        <input id="a2" type="number">
+        <input id="a3" type="number">
+        <button onclick="average()">Calculate</button>
+        <p id="avgResult"></p>
+    </div>
+
+    <!-- Calculator -->
+    <div class="box" id="c">
+        <input id="n1" type="number">
+        <input id="n2" type="number"><br>
+        <button onclick="add()">+</button>
+        <button onclick="sub()">-</button>
+        <button onclick="mul()">*</button>
+        <button onclick="div()">/</button>
+        <p id="calcResult"></p>
+    </div>
+
+    <!-- Solver -->
+    <div class="box" id="m">
+        <input id="inputMath" placeholder="2x+4=10 or 2+3*5">
+        <button onclick="smartSolve()">Solve</button>
+        <p id="mathSteps"></p>
+    </div>
+
+    <!-- Practice -->
+    <div class="box" id="practice">
+        <h3>Advanced Practice</h3>
+
+        <select id="classLevel">
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+            <option value="11">Class 11-12</option>
+        </select>
+
+        <p id="question">Click to get problem</p>
+        <button onclick="generateProblem()">Get Problem</button>
+
+        <br><br>
+
+        <input id="userAnswer" placeholder="Answer">
+        <button onclick="checkAnswer()">Check</button>
+
+        <p id="result"></p>
+    </div>
+
+    <!-- Reviews -->
+    <div class="box" id="review">
+        <h3>User Reviews</h3>
+
+        <input type="text" id="username" placeholder="Your Name">
+        <input type="number" id="rating" placeholder="Rating (1-5)">
+        <input type="text" id="reviewText" placeholder="Your Review">
+
+        <button onclick="addReview()">Submit</button>
+
+        <div id="reviewList"></div>
+    </div>
+
+</div>
+
+<script>
+function startApp() {
+    intro.style.display = "none";
+    main.style.display = "block";
+}
+
+function showBox(id) {
+    document.querySelectorAll(".box").forEach(b => b.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+function percentage() {
+    perResult.innerText = ((marks.value/total.value)*100).toFixed(2)+"%";
+}
+
+function average() {
+    avgResult.innerText = ((+a1.value + +a2.value + +a3.value)/3).toFixed(2);
+}
+
+function add(){calcResult.innerText=+n1.value+ +n2.value;}
+function sub(){calcResult.innerText=n1.value-n2.value;}
+function mul(){calcResult.innerText=n1.value*n2.value;}
+function div(){calcResult.innerText=n1.value/n2.value;}
+
+function smartSolve(){
+    let input=inputMath.value.replace(/\s/g,"");
+    if(input.includes("x")){
+        let p=input.split("=");
+        let a=parseInt(p[0].match(/(\d*)x/)[1])||1;
+        let b=parseInt(p[0].split("x")[1])||0;
+        let c=parseInt(p[1]);
+        mathSteps.innerHTML="x = "+((c-b)/a);
+    } else {
+        mathSteps.innerHTML="Answer: "+eval(input);
+    }
+}
+
+let correctAnswer="";
+
+function generateProblem(){
+    let level = classLevel.value;
+
+    if(level=="7"){
+        let a=Math.floor(Math.random()*20)+5;
+        let b=Math.floor(Math.random()*10)+2;
+        let c=Math.floor(Math.random()*10)+2;
+        question.innerText = a+" × ("+b+" + "+c+") - "+b;
+        correctAnswer = a*(b+c)-b;
+    }
+
+    else if(level=="8"){
+        let x=Math.floor(Math.random()*5)+1;
+        let a=Math.floor(Math.random()*5)+2;
+        let b=Math.floor(Math.random()*10)+1;
+        question.innerText = a+"x + "+b+" where x = "+x;
+        correctAnswer = a*x+b;
+    }
+
+    else if(level=="9"){
+        let a=Math.floor(Math.random()*10)+1;
+        let b=Math.floor(Math.random()*10)+1;
+        if(Math.random()>0.5){
+            question.innerText="("+a+" + "+b+")²";
+            correctAnswer=(a+b)*(a+b);
+        } else {
+            question.innerText="("+a+" - "+b+")²";
+            correctAnswer=(a-b)*(a-b);
+        }
+    }
+
+    else if(level=="10"){
+        let x=Math.floor(Math.random()*10)+1;
+        let a=Math.floor(Math.random()*5)+1;
+        let b=Math.floor(Math.random()*10)+1;
+        let c=a*x+b;
+        question.innerText=a+"x + "+b+" = "+c;
+        correctAnswer=x;
+    }
+
+    else{
+        let x=Math.floor(Math.random()*10)+1;
+        let a=Math.floor(Math.random()*5)+2;
+        let b=Math.floor(Math.random()*10)+1;
+        let d=Math.floor(Math.random()*5)+1;
+
+        if(Math.random()>0.5){
+            let c=a*x+b-d;
+            question.innerText=a+"x + "+b+" - "+d+" = "+c;
+            correctAnswer=x;
+        } else {
+            question.innerText="("+a+"x)/"+d+" = "+(a*x/d);
+            correctAnswer=x;
+        }
+    }
+
+    result.innerText="";
+}
+
+function checkAnswer(){
+    result.innerText=(userAnswer.value==correctAnswer)
+    ?"✅ Correct!"
+    :"❌ Answer: "+correctAnswer;
+}
+
+// REVIEW SYSTEM
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+function addReview() {
+    if(username.value==""||rating.value==""||reviewText.value==""){
+        alert("Fill all fields");
+        return;
+    }
+
+    let review = {
+        name: username.value,
+        rating: rating.value,
+        text: reviewText.value
+    };
+
+    reviews.push(review);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    displayReviews();
+
+    username.value="";
+    rating.value="";
+    reviewText.value="";
+}
+
+function displayReviews() {
+    reviewList.innerHTML="";
+
+    if(reviews.length>0){
+        let total=0;
+        reviews.forEach(r=> total+=Number(r.rating));
+        let avg=(total/reviews.length).toFixed(1);
+
+        reviewList.innerHTML += `<h4>⭐ Average Rating: ${avg}/5</h4>`;
+    }
+
+    reviews.forEach(r=>{
+        reviewList.innerHTML += `
+        <p><b>${r.name}</b> ⭐${r.rating}<br>${r.text}</p><hr>`;
+    });
+}
+
+displayReviews();
+</script>
+
+</body>
+</html>
